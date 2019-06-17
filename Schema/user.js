@@ -18,20 +18,23 @@ const UserSchema=new Schema({
 })
 
 UserSchema.post("remove",(doc)=>{
-    const Comment=require("../Models/article")
-    const Article=require("../Models/comment")
+    const Comment=require("../Models/comment")
+    const Article=require("../Models/article")
     console.log(doc)
-    const {_id:uid}=doc;
-    Article.find({author:uid})
-        .then(data=>{
-            console.log(data)
-            data.forEach(v=>v.remove())
-        })
+    const {_id}=doc;
+    console.log(_id);
 
-    Comment.find({from:uid})
+   
+    Article.find({author:_id})
         .then(data=>{
             console.log(data)
             data.forEach(v=>v.remove())
         })
+    Comment.find({from:_id})
+        .then(data=>{
+            console.log(data)
+            data.forEach(v=>v.remove())
+    })
+   
 })
 module.exports=UserSchema;
